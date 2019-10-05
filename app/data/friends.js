@@ -17,3 +17,5 @@ var bestFriend = [{
 }, ]
 
 module.exports = bestFriend
+
+// grab url instead of image file folder
