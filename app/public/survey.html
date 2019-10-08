@@ -172,6 +172,7 @@
         <br>
 
         <!-- Submit -->
+
         <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit" data-toggle="modal" data-target="bd-example-modal-lg">
             <i class="fa fa-check-circle" aria-hidden="true"></i> Submit
         </button>
@@ -205,91 +206,49 @@
     </div>
 
     <script type="text/javascript">
-        // var config = {
-        //     ".chosen-select": {},
-        //     ".chosen-select-deselect": {
-        //         allow_single_deselect: true
-        //     },
-        //     ".chosen-select-no-single": {
-        //         disable_search_threshold: 10
-        //     },
-        //     ".chosen-select-no-results": {
-        //         no_results_text: "Oops, something went wrong!"
-        //     },
-        //     ".chosen-select-width": {
-        //         width: "95%"
-        //     }
-        // };
-
-        // for (var selector in config) {
-        //     $(selector).chosen(config[selector]);
-        // }
-
-        // $("#submit").on("click", function(event) {
-        //     event.preventDefault();
-
-        //     function validateForm() {
-        //         var isValid = true;
-        //         $(".form-control").each(function() {
-        //             if ($(this).val() === "") {
-        //                 isValid = false;
-        //             }
-        //         });
-        //         $(".chosen-select").each(function() {
-        //             if ($(this).val() === "") {
-        //                 isValid = false;
-        //             }
-        //         });
-        //         return isValid;
-        //     }
-        //     if (validateForm()) {
-        //         var userInput = {
-        //             name: $("#name").val(),
-        //             photo: $("#photo").val(),
-        //             scores: [
-        //                 $("qOne").val(),
-        //                 $("qTwo").val(),
-        //                 $("qThree").val(),
-        //                 $("qFour").val(),
-        //                 $("qFive").val(),
-        //                 $("qSix").val(),
-        //                 $("qSeven").val(),
-        //                 $("qEight").val(),
-        //                 $("qNine").val(),
-        //                 $("qTen").val(),
-        //             ]
-        //         };
-
-        //         $.post("/api/friends", userInput, function(data) {
-        //             $("#match-name").text(data.name);
-        //             $("#match-img").attr("src", data.photo);
-        //             $("#results-modal").modal("toggle");
-        //         });
-        //     } else {
-        //         alert("Please fill out all fields before submitting!");
-        //     }
-        // });
-
-
-        $("#add-btn").on("click", function(event) {
+        $(".submit").on("click", function(event) {
             event.preventDefault();
+
             var newFriend = {
-                name: $("#name").val().trim(),
-                photo: $("#phone").val().trim(),
-                preferences: [$("#qOne").val(), $("#qTwo").val(), $("#qThree").val(), $("#qFour").val(), $("#qFive").val(), $("#qSix").val(), $("#qSeven").val(), $("#qEight").val(), $("#qNine").val(), $("#qTen").val()]
+                newName: $('#name').val().trim(),
+                newPhoto: $('#photo').val().trim(),
+                scores: [
+                    $('#qOne').val(),
+                    $('#qTwo').val(),
+                    $('#qThree').val(),
+                    $('#qFour').val(),
+                    $('#qFive').val(),
+                    $('#qSix').val(),
+                    $('#qSeven').val(),
+                    $('#qEight').val(),
+                    $('#qNine').val(),
+                    $('#qTen').val(),
+                ]
             };
-            $("#friend-form").html("Thanks for your submission! Meet your new best friend!");
-            $.post("/api/friends", newFriend)
-                .done(function(data) {
-                    $("#match-name").text(data.name);
-                    $("#match-image").attr("src", data.photo);
-                });
-        });
-        $("#close-modal").on("click", function() {
-            setTimeout(function() {
-                location.reload()
-            }, 1000);
-        });
+        })
+
+        $.post('/api/friends', newFriend, function(data) {
+            if (data) {
+                $('#bestName').text(data.name);
+                $('#bestPhoto').attr('src', data.img).addClass('img-fluid');
+                $('#results-modal').modal('toggle');
+            } else {
+                alert("Oops, something went wrong. Please try again!");
+            }
+
+            $('#name').val("");
+            $('#photo').val("");
+            $('#qOne').val("");
+            $('#qTwo').val("");
+            $('#qThree').val("");
+            $('#qFour').val("");
+            $('#qFive').val("");
+            $('#qSix').val("");
+            $('#qSeven').val("");
+            $('#qEight').val("");
+            $('#qNine').val("");
+            $('#qTen').val("");
+        })
     </script>
 </body>
 
